@@ -19,7 +19,7 @@
       <div class="content" v-if="barActive === 0">
         <img :src="require('@/assets/images/mainWeb/first-background.svg')" class="first-background" />
       </div>
-      <iframe v-else src="/static/gy_resume.html" style="height:100%;width:100%;min-height: 960px;"></iframe>
+      <iframe v-else :src="$isDev ? '/static/gy_resume.html' : './static/gy_resume.html'" style="height:100%;width:100%;min-height: 960px;"></iframe>
     </div>
   </div>
 </template>

@@ -5,6 +5,9 @@ import App from './App'
 import router from './router'
 import '@/assets/css/common.css' /* 引入公共样式 */
 
+import global from './untils/global' /* 引入公共常量 */
+Vue.use(global)
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
