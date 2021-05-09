@@ -542,13 +542,13 @@ export default {
           transform: translate(-50%, 0);
           white-space: nowrap;
         }
-        .info-item:nth-child(1) {
+        .info-item:nth-child(2) {
           left: 20%;
         }
-        .info-item:nth-child(1) {
+        .info-item:nth-child(3) {
           left: 50%;
         }
-        .info-item:nth-child(1) {
+        .info-item:nth-child(4) {
           left: 80%;
         }
       }
