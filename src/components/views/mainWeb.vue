@@ -470,8 +470,10 @@ export default {
             width: 100%;
             text-align: center;
             position: relative;
+            z-index: 99;
             .back-img {
               width: 45%;
+              cursor: pointer;
             }
           }
         }

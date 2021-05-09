@@ -4,7 +4,7 @@
 
 const path = require('path')
 let isDev = process.env.NODE_ENV === 'development'
-let rootPath = !isDev ? '/' : './'
+let rootPath = isDev ? '/' : './'
 
 module.exports = {
   dev: {
