@@ -66,7 +66,7 @@
                   </svg>
                 </div>
               </div>
-              <video id="video1" class="video-js">
+              <video id="video1" class="video-js" width="248px">
                 <source :src="require(`@/assets/video/menu.mp4`)"
                   type="video/mp4">
                 <p class="vjs-no-js">视频格式不支持！</p>
@@ -74,7 +74,7 @@
             </div>
           </div>
           <div style="width: 65%;text-align: left;display: inline-block;">
-            <img :id="`content9`" :src="require(`@/assets/images/mainWeb/myPlay2.png`)" class="myPlay-img" />
+            <img :id="`content9`" :src="require(`@/assets/images/mainWeb/myPlay3.png`)" class="myPlay-img" />
             <div class="video-area">
               <div class="video-background"></div>
               <div class="btn-box" :class="{'btn-box-hidden': playStatus[1]}">
@@ -84,7 +84,7 @@
                   </svg>
                 </div>
               </div>
-              <video id="video2" class="video-js">
+              <video id="video2" class="video-js" width="248px">
                 <source :src="require(`@/assets/video/plan.mp4`)"
                   type="video/mp4">
                 <p class="vjs-no-js">视频格式不支持！</p>
@@ -92,7 +92,7 @@
             </div>
           </div>
           <div style="width: 65%;text-align: left;display: inline-block;">
-            <img :id="`content10`" :src="require(`@/assets/images/mainWeb/myPlay3.png`)" class="myPlay-img" />
+            <img :id="`content10`" :src="require(`@/assets/images/mainWeb/myPlay2.png`)" class="myPlay-img" />
             <div class="video-area">
               <div class="video-background"></div>
               <div class="btn-box" :class="{'btn-box-hidden': playStatus[2]}">
@@ -102,7 +102,7 @@
                   </svg>
                 </div>
               </div>
-              <video id="video3" class="video-js">
+              <video id="video3" class="video-js" width="248px">
                 <source :src="require(`@/assets/video/watch.mp4`)"
                   type="video/mp4">
                 <p class="vjs-no-js">视频格式不支持！</p>
@@ -598,6 +598,7 @@ export default {
         .myPlay-img {
           height: 4.2vh;
           width: auto;
+          margin-top: 5vh;
           margin-bottom: 4.5vh;
         }
         .video-area {
@@ -614,7 +615,7 @@ export default {
             height: 593px;
             background: #3F424B;
             opacity: 0.52;
-            border-radius: 3%;
+            border-radius: 20px;
           }
           .btn-box {
             position: absolute;
@@ -625,7 +626,7 @@ export default {
             height: 593px;
             background: #3F424B;
             opacity: 0.52;
-            border-radius: 3%;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
