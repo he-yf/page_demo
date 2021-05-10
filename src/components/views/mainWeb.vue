@@ -28,6 +28,7 @@
               @click="goCatalogue(index)">
             <img :src="require(`@/assets/images/mainWeb/part${item}.svg`)" class="catalogue-img" />
           </div>
+          <img :src="require(`@/assets/images/mainWeb/first-background.jpg`)" class="first-background-img" />
         </div>
         <div class="content-navigation">
             <img :src="require(`@/assets/images/mainWeb/content-navigation.png`)" class="navigation-img" />
@@ -57,27 +58,54 @@
           <div style="width: 65%;text-align: left;display: inline-block;">
             <img :id="`content8`" :src="require(`@/assets/images/mainWeb/myPlay1.png`)" class="myPlay-img" />
             <div class="video-area">
+              <div class="video-background"></div>
+              <div class="btn-box" :class="{'btn-box-hidden': playStatus[0]}">
+                <div class="play-btn" @click="play(0)">
+                  <svg width="67px" height="73px" viewBox="0 0 67 73" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M60 24.3757C69.3333 29.7643 69.3333 43.2358 60 48.6244L21.75 70.708C12.4167 76.0966 0.750004 69.3609 0.750004 58.5837L0.750006 14.4163C0.750007 3.63913 12.4167 -3.09661 21.75 2.292L60 24.3757Z" fill="white" fill-opacity="0.94"/>
+                  </svg>
+                </div>
+              </div>
               <video id="video1" class="video-js">
                 <source :src="require(`@/assets/video/menu.mp4`)"
                   type="video/mp4">
+                <p class="vjs-no-js">视频格式不支持！</p>
               </video>
             </div>
           </div>
           <div style="width: 65%;text-align: left;display: inline-block;">
-            <img :id="`content8`" :src="require(`@/assets/images/mainWeb/myPlay2.png`)" class="myPlay-img" />
+            <img :id="`content9`" :src="require(`@/assets/images/mainWeb/myPlay2.png`)" class="myPlay-img" />
             <div class="video-area">
+              <div class="video-background"></div>
+              <div class="btn-box" :class="{'btn-box-hidden': playStatus[1]}">
+                <div class="play-btn" @click="play(1)">
+                  <svg width="67px" height="73px" viewBox="0 0 67 73" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M60 24.3757C69.3333 29.7643 69.3333 43.2358 60 48.6244L21.75 70.708C12.4167 76.0966 0.750004 69.3609 0.750004 58.5837L0.750006 14.4163C0.750007 3.63913 12.4167 -3.09661 21.75 2.292L60 24.3757Z" fill="white" fill-opacity="0.94"/>
+                  </svg>
+                </div>
+              </div>
               <video id="video2" class="video-js">
                 <source :src="require(`@/assets/video/plan.mp4`)"
                   type="video/mp4">
+                <p class="vjs-no-js">视频格式不支持！</p>
               </video>
             </div>
           </div>
           <div style="width: 65%;text-align: left;display: inline-block;">
-            <img :id="`content8`" :src="require(`@/assets/images/mainWeb/myPlay3.png`)" class="myPlay-img" />
+            <img :id="`content10`" :src="require(`@/assets/images/mainWeb/myPlay3.png`)" class="myPlay-img" />
             <div class="video-area">
+              <div class="video-background"></div>
+              <div class="btn-box" :class="{'btn-box-hidden': playStatus[2]}">
+                <div class="play-btn" @click="play(2)">
+                  <svg width="67px" height="73px" viewBox="0 0 67 73" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M60 24.3757C69.3333 29.7643 69.3333 43.2358 60 48.6244L21.75 70.708C12.4167 76.0966 0.750004 69.3609 0.750004 58.5837L0.750006 14.4163C0.750007 3.63913 12.4167 -3.09661 21.75 2.292L60 24.3757Z" fill="white" fill-opacity="0.94"/>
+                  </svg>
+                </div>
+              </div>
               <video id="video3" class="video-js">
                 <source :src="require(`@/assets/video/watch.mp4`)"
                   type="video/mp4">
+                <p class="vjs-no-js">视频格式不支持！</p>
               </video>
             </div>
           </div>
@@ -120,6 +148,8 @@ export default {
       catalogue: [1, 2, 3],
       showNavigation: false,
       userInfo: ['微信：gy262626', '邮箱：gy262626@163.com', '电话：18539285250'],
+      playStatus: [false, false, false],
+      video: [],
       navigation: [
         {
           type: 1,
@@ -247,10 +277,31 @@ export default {
       } else {
         this.showNavigation = false
       }
+      // 导航页随滚动更新高亮项
+      if (this.showNavigation) {
+        let distance = ''
+        let curIdx = 0
+        this.navigation.forEach((item, index) => {
+          let itemTop = document.getElementById(`content${item.id}`).offsetTop
+          if (distance === '' || Math.abs(scrollTop - itemTop) <= distance) {
+            distance = Math.abs(scrollTop - itemTop)
+            curIdx = index
+          }
+        })
+        this.navigation.map((item) => {
+          item.active = false
+        })
+        this.navigation[curIdx].active = true
+      }
+      // 滚动中止视频播放
+      this.playStatus.map((item, index) => {
+        this.videoPause(index)
+        item = false
+      })
     },
     initVideo (index) {
       // 初始化视频方法
-      this.$video(`video${index}`, {
+      let videoItem = this.$video(`video${index}`, {
         // 确定播放器是否具有用户可以与之交互的控件。没有控件，启动视频播放的唯一方法是使用autoplay属性或通过Player API。
         controls: true,
         // 自动播放属性,muted:静音播放
@@ -262,6 +313,17 @@ export default {
         // 设置视频播放器的显示高度（以像素为单位）
         height: 'auto'
       })
+      this.video.push(videoItem)
+    },
+    // 播放音频
+    play (index) {
+      this.video[index].play()
+      this.$set(this.playStatus, index, true)
+    },
+    // 视频播放中止
+    videoPause (index) {
+      this.video[index].pause()
+      this.$set(this.playStatus, index, false)
     },
     // 右上角信息栏点击切换
     switchBar (index) {
@@ -305,6 +367,29 @@ export default {
 }
 </script>
 
+<style>
+.video-js .vjs-big-play-button {
+  display: none !important;
+  /* height: 593px;
+  width: 65vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-30%, -20px); */
+}
+/* .vjs-modal-dialog
+.vjs-modal-dialog-content,
+.video-js .vjs-modal-dialog, .vjs-button > .vjs-icon-placeholder:before, .video-js .vjs-big-play-button .vjs-icon-placeholder:before {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(3);
+  left: 50%;
+  display: inline-block;
+  width: unset;
+  height: unset;
+} */
+</style>
+
 <style scoped lang="less">
 .main_web_page {
   .first-part {
@@ -339,6 +424,7 @@ export default {
           display: inline-block;
           width: 80px;
           height: 100%;
+          font-size: 0;
           .bar-text {
             font-size: 16px;
             color: #818DBD;
@@ -371,6 +457,14 @@ export default {
       .content-main {
         position: relative;
         .first-background {
+          width: 100%;
+          height: auto;
+        }
+        .first-background-img {
+          position: absolute;
+          left: 0;
+          top: 0;
+          z-index: -1;
           width: 100%;
           height: auto;
         }
@@ -410,6 +504,9 @@ export default {
             width: 100%;
           }
         }
+        .catalogue:hover {
+          transform: scale(1.1) translateX(2%);
+        }
         .catalogue:nth-child(6) {
           top: 34.8%;
           right: 18.6%;
@@ -446,6 +543,7 @@ export default {
             box-shadow: 0px 1px 8px rgba(46, 45, 44, 0.15);
             border-radius: 4px;
             font-size: 12px;
+            color: #9F9F9F;
             display: flex;
             align-items: center;
             justify-content: flex-start;
@@ -506,8 +604,41 @@ export default {
           width: 100%;
           height: 593px;
           text-align: center;
+          position: relative;
+          .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            width: 100%;
+            height: 593px;
+            background: #3F424B;
+            opacity: 0.52;
+            border-radius: 3%;
+          }
+          .btn-box {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            width: 100%;
+            height: 593px;
+            background: #3F424B;
+            opacity: 0.52;
+            border-radius: 3%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .play-btn {
+              cursor: pointer;
+              display: inline-block;
+            }
+          }
+          .btn-box-hidden {
+            display: none;
+          }
           .video-js {
-            margin-top: 20px;
+            margin-top: 25px;
             background: transparent;
             display: inline-block;
           }
@@ -556,27 +687,5 @@ export default {
       }
     }
   }
-}
-</style>
-
-<style>
-.video-js .vjs-big-play-button {
-  height: 593px;
-  width: 65vw;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translate(-30%, -20px);
-}
-.vjs-modal-dialog
-.vjs-modal-dialog-content,
-.video-js .vjs-modal-dialog, .vjs-button > .vjs-icon-placeholder:before, .video-js .vjs-big-play-button .vjs-icon-placeholder:before {
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  left: 50%;
-  display: inline-block;
-  width: unset;
-  height: unset;
 }
 </style>
